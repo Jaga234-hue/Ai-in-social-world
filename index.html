@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Safety Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        textarea, input[type="file"] {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .warning-container {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 15px;
+            background: red;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .warning-message {
+            margin-bottom: 5px;
+        }
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .post-container {
+            margin-top: 20px;
+            height: fit-content;
+            overflow-y: scroll;
+            width: fit-content;
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Check Content Safety</h2>
+        <form id="analysisForm" enctype="multipart/form-data">
+            <textarea name="text" placeholder="Enter text to check..."></textarea>
+            <input type="file" name="file" accept="image/*, video/*">
+            <button type="submit">Check</button>
+        </form>
+        <div class="warning-container" id="warningContainer"></div>
+        <div class="post-container"></div>
+    </div>
+
+    <script>
+    document.getElementById('analysisForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearWarnings();
+        showLoading();
+
+        const formData = new FormData(e.target);
+        const postContainer = document.querySelector('.post-container');
+        postContainer.innerHTML = ''; // Clear previous content
+
+        try {
+            const response = await fetch('api.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            processAnalysisResults(data, formData);
+
+        } catch (error) {
+            console.error('Error:', error);
+            showWarning(`Error: ${error.message}`);
+        } finally {
+            hideLoading();
+        }
+    });
+
+    function processAnalysisResults(data, formData) {
+        let hasWarnings = false;
+
+        // Image analysis warnings
+        if (data.image_analysis?.responses?.[0]?.safeSearchAnnotation) {
+            const safeSearch = data.image_analysis.responses[0].safeSearchAnnotation;
+            if (checkSafetyLevel(safeSearch, 'adult', 'Adult content (Image)')) hasWarnings = true;
+            if (checkSafetyLevel(safeSearch, 'violence', 'Violent content (Image)')) hasWarnings = true;
+            if (checkSafetyLevel(safeSearch, 'racy', 'Racy content (Image)')) hasWarnings = true;
+            if (checkSafetyLevel(safeSearch, 'medical', 'Medical content (Image)')) hasWarnings = true;
+            if (checkSafetyLevel(safeSearch, 'spoof', 'Spoofed content (Image)')) hasWarnings = true;
+        }
+
+        // Video analysis warnings
+        if (data.video_analysis?.annotationResults?.[0]?.safeSearchAnnotations) {
+            const videoSafeSearch = data.video_analysis.annotationResults[0].safeSearchAnnotations;
+            for (let frame of videoSafeSearch) {
+                if (checkSafetyLevel(frame, 'adult', 'Adult content (Video)')) hasWarnings = true;
+                if (checkSafetyLevel(frame, 'violence', 'Violent content (Video)')) hasWarnings = true;
+                if (checkSafetyLevel(frame, 'racy', 'Racy content (Video)')) hasWarnings = true;
+                if (checkSafetyLevel(frame, 'medical', 'Medical content (Video)')) hasWarnings = true;
+                if (checkSafetyLevel(frame, 'spoof', 'Spoofed content (Video)')) hasWarnings = true;
+            }
+        }
+
+        // Text analysis warnings
+        if (data.text_analysis?.documentSentiment) {
+            const sentiment = data.text_analysis.documentSentiment;
+            if (sentiment.score < -0.5) {
+                showWarning('Warning: Highly negative text detected!');
+                hasWarnings = true;
+            }
+        }
+
+        // If no warnings, display uploaded files
+        if (!hasWarnings) {
+            displayFiles(formData);
+        }
+    }
+
+    function checkSafetyLevel(safeSearch, category, label) {
+        const levels = ['LIKELY', 'VERY_LIKELY'];
+        if (levels.includes(safeSearch[category])) {
+            showWarning(`Warning: Potential ${label} detected!`);
+            return true; // Warning detected
+        }
+        return false; // No warning
+    }
+
+    function showWarning(message) {
+        warningContainer.style.display = 'block';
+        const warning = document.createElement('div');
+        warning.className = 'warning-message';
+        warning.innerHTML = `⚠️ ${message}`;
+        warningContainer.appendChild(warning);
+        
+        setTimeout(() => {
+            warning.remove();
+            if (!warningContainer.hasChildNodes()) {
+                warningContainer.style.display = 'none';
+            }
+        }, 5000);
+    }
+
+    function clearWarnings() {
+        warningContainer.innerHTML = '';
+        warningContainer.style.display = 'none';
+    }
+
+    function showLoading() {
+        document.querySelector('button').innerHTML = '<div class="loader"></div> Analyzing...';
+    }
+
+    function hideLoading() {
+        document.querySelector('button').innerHTML = 'Check';
+    }
+
+    function displayFiles(formData) {
+        const postContainer = document.querySelector('.post-container');
+        postContainer.innerHTML = ''; // Clear previous content
+
+        // Display text if entered
+        const text = formData.get('text');
+        if (text) {
+            const textDiv = document.createElement('div');
+            textDiv.className = 'text-preview';
+            textDiv.textContent = `📜 Text: ${text}`;
+            postContainer.appendChild(textDiv);
+        }
+
+        // Display file if uploaded
+        const file = formData.get('file');
+        if (file && file.name) {
+            const fileType = file.type.split('/')[0];
+
+            const fileDiv = document.createElement('div');
+            fileDiv.className = 'file-preview';
+
+            if (fileType === 'image') {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.alt = 'Uploaded Image';
+                img.style.maxWidth = '300px';
+                fileDiv.appendChild(img);
+            } else if (fileType === 'video') {
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(file);
+                video.controls = true;
+                video.style.maxWidth = '300px';
+                fileDiv.appendChild(video);
+            } else {
+                fileDiv.textContent = `📄 File Uploaded: ${file.name}`;
+            }
+
+            postContainer.appendChild(fileDiv);
+        }
+    }
+</script>
+</body>
+</html>
