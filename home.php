@@ -300,21 +300,23 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
             </div>
             <div class="profileDetails" id="profileDetails" style="display: none;">
                 <div class="profilePic" id="profilePic">
-                    <input type="file" id="profilePicInput" accept="image/*">
-                    <img id="profilePicImg" src="" alt="Profile Picture">
+                    
                 </div>
                 <div class="user-id" id="userId"><?php echo $user_id ?></div>
                 <div class="profileName" id="profileName"><?php echo $username ?></div>
                 <div class="profile-email" id="profileEmail"><?php echo $email ?></div>
-                <div class="edit-profile" id="editProfile">✏️</div>
+                <label for="bio" id="bioLabel">Bio: </label>
+                <div class="edit-profile" id="editProfile" onclick="editProfile()" style="cursor:pointer">✏️</div>
             </div>
             <div class="search-bar">
-                <input type="text" placeholder="Search users..." onkeyup="searchUsers(this.value)">
+                <input type="text" placeholder="Search users by username or id" onkeyup="searchUsers()">
             </div>
-            <div class="search-div" id="searchDiv">
+            <div class="search-div" id="searchDiv" style="display: none;">
                 <div class="search-user" id="searchUser"></div>
             </div>
-            <div class="menu" onclick="toggleMenu()"><h1>☰</h1></div>
+            <div class="menu" onclick="toggleMenu()">
+                <h1>☰</h1>
+            </div>
         </div>
 
         <div class="body">
@@ -386,9 +388,25 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
             }
         });
 
-        function searchUsers(query) {
-            // Add search logic
-            console.log('Searching for:', query);
+        function searchUser() {
+            let query = document.getElementById("searchInput").value.trim();
+
+            if (query.length === 0) {
+                document.getElementById("searchResults").innerHTML = ""; // Clear results if empty
+                return;
+            }
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "searchUser.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("searchResults").innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.send("query=" + encodeURIComponent(query));
         }
     </script>
 </body>
