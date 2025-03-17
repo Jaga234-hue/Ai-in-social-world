@@ -306,6 +306,7 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
                 <div class="user-id" id="userId"><?php echo $user_id ?></div>
                 <div class="profileName" id="profileName"><?php echo $username ?></div>
                 <div class="profile-email" id="profileEmail"><?php echo $email ?></div>
+                <div class="edit-profile" id="editProfile">✏️</div>
             </div>
             <div class="search-bar">
                 <input type="text" placeholder="Search users..." onkeyup="searchUsers(this.value)">
