@@ -3,7 +3,8 @@ session_start();
 require 'dbconnect.php'; // Include database connection
 
 // Function to generate a unique user ID
-function generateUserId($conn) {
+function generateUserId($conn)
+{
     do {
         $user_id = rand(10000000, 99999999); // Generate an 8-digit random ID
         $query = "SELECT user_id FROM users WHERE user_id = ?";
@@ -12,7 +13,7 @@ function generateUserId($conn) {
         mysqli_stmt_execute($stmt);
         mysqli_stmt_store_result($stmt);
     } while (mysqli_stmt_num_rows($stmt) > 0);
-    
+
     mysqli_stmt_close($stmt);
     return $user_id;
 }
@@ -50,17 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_stmt_bind_param($stmt, "isss", $user_id, $username, $email, $hashed_password);
 
         if (mysqli_stmt_execute($stmt)) {
-            // Set cookies
-            setcookie("user_id", $user_id, time() + (86400 * 30), "/");
-            setcookie("username", $username, time() + (86400 * 30), "/");
-            setcookie("email", $email, time() + (86400 * 30), "/");
-
             echo "<script>alert('Signup successful! Please login.'); window.location.href='index.php';</script>";
         } else {
             echo "<script>alert('Signup failed. Try again later.'); window.location.href='index.php';</script>";
         }
         mysqli_stmt_close($stmt);
-
     } elseif (isset($_POST['loginUsername']) && isset($_POST['loginPassword'])) {
         // Login Handling
         $loginUsername = trim($_POST['loginUsername']);
@@ -75,8 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($user = mysqli_fetch_assoc($result)) {
             if (password_verify($loginPassword, $user['password_hash'])) {
-                $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['username'] = $user['username'];
+                setcookie("username", $user['username'], time() + (86400 * 30), "/");
+                setcookie("email", $loginUsername, time() + (86400 * 30), "/");                
 
                 echo "<script>alert('Login successful!'); window.location.href='home.php';</script>";
             } else {
@@ -88,4 +83,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_stmt_close($stmt);
     }
 }
-?>
