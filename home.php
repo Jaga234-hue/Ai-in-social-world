@@ -154,6 +154,9 @@
             <div class="search-bar">
                 <input type="text" placeholder="Search users..." onkeyup="searchUsers(this.value)">
             </div>
+            <div class="search-div" id="searchDiv">
+                <div class="search-user" id="searchUser"></div>
+            </div>
             <div class="menu" onclick="toggleMenu()"><h1>☰</h1></div>
         </div>
 
