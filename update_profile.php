@@ -58,6 +58,7 @@ $stmt->execute();
 // Check if update was successful
 if ($stmt->affected_rows > 0) {
     echo "Profile updated successfully!";
+    header("Location: home.php");
 } else {
     echo "No changes were made or update failed.";
 }
