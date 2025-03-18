@@ -25,27 +25,37 @@
         }
 
         
-        function searchUser() {
+        function searchUsers() {
             let query = document.getElementById("searchInput").value.trim();
-
-            if (query.length === 0) {
-                document.getElementById("searchResults").innerHTML = ""; // Clear results if empty
+            const resultsContainer = document.getElementById("searchResults");
+        
+            if (query === "") {
+                resultsContainer.innerHTML = "";
                 return;
             }
-
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", "searchUser.php", true);
+        
+            // Validate numeric input
+            if (!/^\d+$/.test(query)) {
+                resultsContainer.innerHTML = "<p class='error'>Please enter a valid numeric User ID</p>";
+                return;
+            }
+        
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "search.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
+        
             xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    document.getElementById("searchResults").innerHTML = xhr.responseText;
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        resultsContainer.innerHTML = xhr.responseText;
+                    } else {
+                        resultsContainer.innerHTML = "<p class='error'>Error fetching results</p>";
+                    }
                 }
             };
-
+        
             xhr.send("query=" + encodeURIComponent(query));
         }
-        
         editbtn.addEventListener('click', () => {
             editProfile.style.display = 'block';
             profileDetails.style.display = 'none';

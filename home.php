@@ -57,11 +57,11 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
                 <div class="profileName" id="profileName"><?php echo $username ?></div>
                 <div class="profile-email" id="profileEmail"><?php echo $email ?></div>
                 <div id="bioDisplay"><?php echo htmlspecialchars($bio ?? 'No bio yet'); ?></div>
-                <div class="edit-profile" id="editProfile"  style="cursor:pointer">✏️</div>
+                <div class="edit-profile" id="editProfile" style="cursor:pointer">✏️</div>
             </div>
-            <div class="edit-bio" id="editBio" style="display: none;" >
+            <div class="edit-bio" id="editBio" style="display: none;">
                 <h2>Edit Profile</h2>
-                <form action="update_profile.php" method="POST"  enctype="multipart/form-data">
+                <form action="update_profile.php" method="POST" enctype="multipart/form-data">
                     <label for="user_name">Name</label>
                     <input type="text" name="user_name" value="<?php echo $username; ?>">
                     <label for="bio">Bio</label>
@@ -75,23 +75,23 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
                 <span class="close" id="close" style="cursor:pointer" title="Close"> ❌ </span>
             </div>
 
-            <div class= "search-bar">
-                    <input type="text" placeholder="Search users by username or id" onkeyup="searchUsers()">
-            </div>
-            <div class="search-div" id="searchDiv" style="display: none;">
-                <div class="search-user" id="searchUser"></div>
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" id="searchInput"
+                        placeholder="Search users by user_id"
+                        onkeyup="searchUsers()">
+                </div>
             </div>
             <div class="menu" onclick="toggleMenu()">
                 <h1>☰</h1>
             </div>
         </div>
-
         <div class="body">
             <div class="left" id="leftPanel">
                 <div class="request">
                     <h3>Requests</h3>
-                    <div class="sent">Sent: 2</div>
-                    <div class="received">Received: 3</div>
+                    <div class="sent"></div>
+                    <div class="received"></div>
                 </div>
                 <div class="friend-list">
                     <h3>Friends</h3>
@@ -106,6 +106,7 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
             </div>
 
             <div class="right">
+            <div id="searchResults"></div>
                 <div class="post-section">
                     <h2>Posts</h2>
                     <div class="post">Latest updates appear here...</div>
