@@ -10,7 +10,7 @@
         }
 
         function toggleProfile() {
-
+            
             if (profileDetails.style.display === 'none' || profileDetails.style.display === '') {
                 profileDetails.style.display = 'block'; // Make it visible
                 setTimeout(() => {
@@ -65,3 +65,14 @@
             editProfile.style.display = 'none';
            
         });
+
+        document.addEventListener('click', function (event) {
+            if (event.target && event.target.classList.contains('follow-button')) {
+                const opponent = document.getElementById('opponent-show');
+                if (opponent) {
+                    opponent.style.display = 'block';
+                }
+            }
+        });
+        
+        

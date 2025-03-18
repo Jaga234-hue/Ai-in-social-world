@@ -1,5 +1,6 @@
 <?php
 require_once 'dbconnect.php';
+$profilePic = $username = null;
 
 if (isset($_POST['query'])) {
     $searchQuery = trim($_POST['query']);
@@ -32,6 +33,7 @@ if (isset($_POST['query'])) {
                 : 'images/default-profile.png';
             
             echo '<img src="' . $profilePic . '" alt="Profile Picture">';
+            $username = htmlspecialchars($row['username']);
             
             // User info
             echo '<div class="user-info">';
@@ -42,7 +44,7 @@ if (isset($_POST['query'])) {
             echo '</div>';
             
             // Action button
-            echo '<button class="follow-button">message</button>';
+            echo '<button class="follow-button" id= "msgbtn">message</button>';
             echo '</div>';
         }
     } else {

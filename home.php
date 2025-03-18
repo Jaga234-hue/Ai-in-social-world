@@ -88,25 +88,27 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
         </div>
         <div class="body">
             <div class="left" id="leftPanel">
-                <div class="request">
+                <div class="mn" id="chats">
+                    <h3>chats</h3>
+                </div>
+                <div class="mn" id="request">
                     <h3>Requests</h3>
-                    <div class="sent"></div>
-                    <div class="received"></div>
                 </div>
-                <div class="friend-list">
+                <div class="mn" id="friends">
                     <h3>Friends</h3>
-                    <div class="friend">Alice Smith</div>
-                    <div class="friend">Bob Johnson</div>
                 </div>
-                <div class="setting">
+                <div class="mn" id="settings">
                     <h3>Settings</h3>
-                    <div>Privacy</div>
-                    <div>Account</div>
                 </div>
             </div>
 
             <div class="right">
             <div id="searchResults"></div>
+            <div class="opponent-show" id="opponent-show">
+                <?php
+                
+                ?>
+            </div>
                 <div class="post-section">
                     <h2>Posts</h2>
                     <div class="post">Latest updates appear here...</div>
