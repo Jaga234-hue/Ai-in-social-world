@@ -10,7 +10,7 @@
         }
 
         function toggleProfile() {
-            
+
             if (profileDetails.style.display === 'none' || profileDetails.style.display === '') {
                 profileDetails.style.display = 'block'; // Make it visible
                 setTimeout(() => {
@@ -24,10 +24,10 @@
             }
         }
 
-        
+        const resultsContainer = document.getElementById("searchResults");
         function searchUsers() {
             let query = document.getElementById("searchInput").value.trim();
-            const resultsContainer = document.getElementById("searchResults");
+            
         
             if (query === "") {
                 resultsContainer.innerHTML = "";
@@ -66,11 +66,34 @@
            
         });
 
-        document.addEventListener('click', function (event) {
-            if (event.target && event.target.classList.contains('follow-button')) {
-                const opponent = document.getElementById('opponent-show');
-                if (opponent) {
-                    opponent.style.display = 'block';
+        document.addEventListener("click", function(event) {
+            if (event.target.classList.contains("follow-button")) {
+                let userItem = event.target.closest(".search-result-item");
+                let opponentShow = document.getElementById("opponent-show");
+        
+                if (userItem) {
+                    let username = userItem.querySelector("h3").innerText;
+                    let userId = userItem.querySelector(".user-id").innerText;
+                    let profilePic = userItem.querySelector("img").src;
+        
+                    // Display opponent details
+                    opponentShow.innerHTML = `
+                        <div class="opponent-details">
+                            <img src="${profilePic}" alt="Profile Picture">
+                            <h3>${username}</h3>
+                             
+                        </div>
+                    `;
+                    {/* <p><strong>User ID:</strong> ${userId}</p>
+                    <button id="close-btn">Close</button>   */}
+                    opponentShow.style.display = "block";
+                    resultsContainer.style.display = "none";
+
+        
+                    // Close button functionality
+                    document.getElementById("close-btn").addEventListener("click", function() {
+                        opponentShow.style.display = "none";
+                    });
                 }
             }
         });

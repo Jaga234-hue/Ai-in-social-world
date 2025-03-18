@@ -46,6 +46,7 @@ if (isset($_POST['query'])) {
             // Action button
             echo '<button class="follow-button" id= "msgbtn">message</button>';
             echo '</div>';
+            
         }
     } else {
         echo "<p class='no-results'>No users found with this ID</p>";

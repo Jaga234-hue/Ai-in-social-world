@@ -105,17 +105,14 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
             <div class="right">
             <div id="searchResults"></div>
             <div class="opponent-show" id="opponent-show">
-                <?php
-                
-                ?>
             </div>
                 <div class="post-section">
-                    <h2>Posts</h2>
-                    <div class="post">Latest updates appear here...</div>
+                    <!-- <h2>Posts</h2>
+                    <div class="post">Latest updates appear here...</div> -->
                 </div>
                 <div class="chat-section">
-                    <h2>Chats</h2>
-                    <div class="chat">Recent messages...</div>
+                   <!--  <h2>Chats</h2>
+                    <div class="chat">Recent messages...</div> -->
                 </div>
             </div>
         </div>

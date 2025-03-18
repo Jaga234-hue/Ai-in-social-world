@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = trim($_POST['username']);
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
-
+        setcookie("username", $username, time() + (86400 * 30), "/");
         // Hash the password for security
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
@@ -44,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Generate a unique user_id
         $user_id = generateUserId($conn);
-
         // Insert new user into the database using a prepared statement
         $insert_query = "INSERT INTO users (user_id, username, email, password_hash) VALUES (?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $insert_query);
@@ -60,7 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Login Handling
         $loginUsername = trim($_POST['loginUsername']);
         $loginPassword = trim($_POST['loginPassword']);
-
+        setcookie("username", $loginUsername, time() + (86400 * 30), "/");
+        setcookie("email", $loginUsername, time() + (86400 * 30), "/");
         // Check if user exists
         $query = "SELECT user_id, username, password_hash FROM users WHERE email = ? OR username = ?";
         $stmt = mysqli_prepare($conn, $query);
