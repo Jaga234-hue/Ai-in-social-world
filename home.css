@@ -402,4 +402,8 @@
     margin: 0;
     color: gray; /* Subtle text */
 }
-
+.chat-list{
+    height: 100%;
+    width: 100%;
+    background-color: #333;
+}

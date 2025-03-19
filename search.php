@@ -44,7 +44,7 @@ if (isset($_POST['query'])) {
             echo '</div>';
             
             // Action button
-            echo '<button class="follow-button" id= "msgbtn">message</button>';
+            echo '<button class="follow-button msgbtn" data-userid="' . htmlspecialchars($row['user_id']) . '">message</button>';
             echo '</div>';
             
         }

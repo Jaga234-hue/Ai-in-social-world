@@ -88,6 +88,7 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
         </div>
         <div class="body">
             <div class="left" id="leftPanel">
+            <div class="chat-list" id="chatList" ></div>
                 <div class="mn" id="chats">
                     <h3>chats</h3>
                 </div>

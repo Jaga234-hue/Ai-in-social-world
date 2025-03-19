@@ -66,36 +66,24 @@
            
         });
 
-        document.addEventListener("click", function(event) {
-            if (event.target.classList.contains("follow-button")) {
-                let userItem = event.target.closest(".search-result-item");
-                let opponentShow = document.getElementById("opponent-show");
         
-                if (userItem) {
-                    let username = userItem.querySelector("h3").innerText;
-                    let userId = userItem.querySelector(".user-id").innerText;
-                    let profilePic = userItem.querySelector("img").src;
-        
-                    // Display opponent details
-                    opponentShow.innerHTML = `
-                        <div class="opponent-details">
-                            <img src="${profilePic}" alt="Profile Picture">
-                            <h3>${username}</h3>
-                             
-                        </div>
-                    `;
-                    {/* <p><strong>User ID:</strong> ${userId}</p>
-                    <button id="close-btn">Close</button>   */}
-                    opponentShow.style.display = "block";
-                    resultsContainer.style.display = "none";
-
-        
-                    // Close button functionality
-                    document.getElementById("close-btn").addEventListener("click", function() {
-                        opponentShow.style.display = "none";
-                    });
-                }
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('msgbtn')) {
+                const targetUserId = e.target.getAttribute('data-userid');
+                
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'send_request.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                
+                xhr.onload = function() {
+                    const response = JSON.parse(this.responseText);
+                    if (response.status === 'success') {
+                        alert('Friend request sent!');
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                };
+                
+                xhr.send('target_user_id=' + encodeURIComponent(targetUserId));
             }
         });
-        
-        
