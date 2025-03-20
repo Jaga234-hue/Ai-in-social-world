@@ -108,12 +108,13 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
                 <div class="opponent-show" id="opponent-show">
                 </div>
                 <div class="chat-section" id="chatSection">
-                    <!--  <h2>Chats</h2>
-                    <div class="chat">Recent messages...</div> -->
+                    <?php include 'chat_message.php'; ?>
                 </div>
                 <div class="footer" id="footer">
-                    <input type="text" placeholder="Type a message..." style="width: 100%; padding: 8px;">
-                    <button class="send" id="send">📨</button>
+                    <form action="send_message.php" method="POST" >
+                        <input type="text" placeholder="Type a message..." name="message" id="message">
+                        <button type="submit" name="send" class="send" id="send">📨</button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['opponent_id'])) {
         $opponent_id = intval($_POST['opponent_id']);
         /* echo 'Opponent ID: ' . $opponent_id . */ '<br>'; // Debugging
-
+    setcookie("opponent_id", $opponent_id, time() + (86400 * 30), "/");
         // Fetch user details
         $stmt = $conn->prepare("SELECT username, profile_pic_url FROM users WHERE user_id = ?");
         if (!$stmt) {

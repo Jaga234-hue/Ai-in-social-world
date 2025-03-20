@@ -87,3 +87,4 @@
                 xhr.send('target_user_id=' + encodeURIComponent(targetUserId));
             }
         });
+        
