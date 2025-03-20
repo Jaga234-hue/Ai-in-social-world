@@ -122,34 +122,51 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatItems = document.querySelectorAll('.chat-item');
     const opponentShow = document.getElementById('opponent-show');
 
-    chatItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Remove active class from all items
+    // Load last selected chat on page load
+    const lastOpponentId = localStorage.getItem('lastOpponentId');
+    if (lastOpponentId) {
+        const savedChatItem = document.querySelector(`.chat-item[data-user-id="${lastOpponentId}"]`);
+        if (savedChatItem) {
+            // Remove active class from all items first
             chatItems.forEach(chat => chat.classList.remove('active'));
-            // Add active class to clicked item
-            this.classList.add('active');
-
-            // Get the user ID from the data attribute
-            const userId = this.dataset.userId;
-            console.log("Clicked user ID:", userId); // Debugging
-
-            // Create form data
+            savedChatItem.classList.add('active');
+            
+            // Fetch and display chat details
             let formData = new FormData();
-            formData.append('opponent_id', userId);
-
-            // Send request via POST
+            formData.append('opponent_id', lastOpponentId);
             fetch('get_chat_details.php', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.text())
             .then(data => {
-                console.log("Response from PHP:", data); // Debugging
+                opponentShow.innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    }
+
+    // Click handler for chat items
+    chatItems.forEach(item => {
+        item.addEventListener('click', function() {
+            chatItems.forEach(chat => chat.classList.remove('active'));
+            this.classList.add('active');
+
+            const userId = this.dataset.userId;
+            localStorage.setItem('lastOpponentId', userId); // Store ID
+
+            let formData = new FormData();
+            formData.append('opponent_id', userId);
+            fetch('get_chat_details.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
                 opponentShow.innerHTML = data;
             })
             .catch(error => console.error('Error:', error));
         });
     });
 });
-
 </script>
