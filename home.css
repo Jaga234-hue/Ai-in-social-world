@@ -76,9 +76,20 @@
 
         /* Footer Styles */
         .footer {
+            display: flex;
             background: #fff;
             padding: 1rem;
             border-top: 1px solid #ddd;
+            width:100%;
+            flex-direction: row;
+        }
+        .chat-section{
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            overflow-y: scroll;
+            padding: 1rem;
+            background: #c44a4a;
         }
         /* Mobile tyles */
         @media (max-width: 768px) {
@@ -406,4 +417,13 @@
     height: 100%;
     width: 100%;
     background-color: #333;
+}
+.search-result-item {
+    border: 1px solid #000000;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    background-color: #63a05d;
 }

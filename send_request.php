@@ -1,6 +1,7 @@
 <?php
 require_once 'dbconnect.php';
 
+// Should return bool(true) if connection is alive
 // Check if user is logged in via cookies
 if (!isset($_COOKIE['username']) && !isset($_COOKIE['email'])) {
     echo json_encode(['status' => 'error', 'message' => 'Not logged in.']);

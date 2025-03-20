@@ -88,7 +88,7 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
         </div>
         <div class="body">
             <div class="left" id="leftPanel">
-            <div class="chat-list" id="chatList" ></div>
+                <div class="chat-list" id="chatList"><?php include 'chatsection.php'; ?></div>
                 <div class="mn" id="chats">
                     <h3>chats</h3>
                 </div>
@@ -104,23 +104,20 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
             </div>
 
             <div class="right">
-            <div id="searchResults"></div>
-            <div class="opponent-show" id="opponent-show">
-            </div>
-                <div class="post-section">
-                    <!-- <h2>Posts</h2>
-                    <div class="post">Latest updates appear here...</div> -->
+                <div id="searchResults"></div>
+                <div class="opponent-show" id="opponent-show">
                 </div>
-                <div class="chat-section">
-                   <!--  <h2>Chats</h2>
+                <div class="chat-section" id="chatSection">
+                    <!--  <h2>Chats</h2>
                     <div class="chat">Recent messages...</div> -->
+                </div>
+                <div class="footer" id="footer">
+                    <input type="text" placeholder="Type a message..." style="width: 100%; padding: 8px;">
+                    <button class="send" id="send">📨</button>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            <input type="text" placeholder="Type a message..." style="width: 100%; padding: 8px;">
-        </div>
     </div>
     <script src="home.js"></script>
 </body>
