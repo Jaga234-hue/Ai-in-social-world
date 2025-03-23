@@ -43,7 +43,7 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
 </head>
 
 <body>
-    <div class="container">
+    <div class="main-container">
         <div class="header">
             <div class="profile-icn" id="profileIcn" onclick="toggleProfile()">
                 <div class="profile-pic"></div>
@@ -109,12 +109,35 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
                 </div>
                 <div class="chat-section" id="chatSection">
                     <?php include 'chat_message.php'; ?>
+                    <div class="post-container"></div>
                 </div>
                 <div class="footer" id="footer">
-                    <form action="send_message.php" method="POST" >
+                    <!-- <form action="send_message.php" method="POST">
                         <input type="text" placeholder="Type a message..." name="message" id="message">
                         <button type="submit" name="send" class="send" id="send">📨</button>
-                    </form>
+                    </form> -->
+
+                    <div class="container">
+                        <form id="analysisForm" >
+                            <div class="textarea-container">
+                                <div class="attachment-wrapper">
+                                    <span class="attach-btn">
+                                        <span>🖼</span>
+                                        <span id="fileInfo" class="file-info"></span>
+                                        <input
+                                            id="fileInput"
+                                            type="file"
+                                            name="file"
+                                            accept="image/*, video/*"
+                                            style="display: none" />
+                                    </span>
+                                </div>
+                                <textarea name="text" placeholder="Enter text to check..."></textarea>
+                            </div>
+                            <button type="submit">Check</button>
+                        </form>
+                        <div class="warning-container" id="warningContainer"></div>
+                    </div>
                 </div>
             </div>
         </div>

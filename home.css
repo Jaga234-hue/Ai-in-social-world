@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
         }
 
-        .container {
+        .main-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -82,11 +82,12 @@
             border-top: 1px solid #ddd;
             width:100%;
             flex-direction: row;
+            height: fit-content;
         }
         .chat-section{
             display: flex;
             flex-direction: column;
-            height: 500px;
+            height: 400px;
             overflow-y: scroll;
             padding: 1rem;
             background: #c44a4a;
@@ -427,3 +428,232 @@
     align-items: center;
     background-color: #63a05d;
 }
+.container {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    height: fit-content;
+  }
+
+
+  form {
+    display: flex;
+    flex-direction: row;
+    /* Changed to row for chat-style layout */
+    gap: 0.5rem;
+    /* Reduced gap for compactness */
+    align-items: center;
+    /* Align items vertically */
+  }
+
+  .textarea-container {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    /* Reduced padding for compactness */
+    background: #fafafa;
+    transition: all 0.2s ease;
+    position: relative;
+    min-height: 40px;
+    /* Reduced min-height */
+    flex-grow: 1;
+    /* Allow textarea to grow and fill space */
+  }
+
+  .textarea-container:focus-within {
+    border-color: #2196f3;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 40px;
+    /* Reduced min-height */
+    padding: 8px 40px 8px 8px;
+    /* Adjusted padding for compactness */
+    border: none;
+    background: transparent;
+    resize: vertical;
+    font-size: 14px;
+    /* Slightly smaller font size */
+    line-height: 1.4;
+    /* Adjusted line height */
+    color: #333;
+  }
+
+  textarea:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .attachment-wrapper {
+    position: absolute;
+    right: 8px;
+    /* Adjusted position for compactness */
+    bottom: 8px;
+    /* Adjusted position for compactness */
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    /* Reduced gap */
+    z-index: 2;
+  }
+
+  .attach-btn {
+    background: #e3f2fd;
+    width: 32px;
+    /* Reduced size */
+    height: 32px;
+    /* Reduced size */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    font-size: 14px;
+    /* Smaller icon size */
+  }
+
+  .attach-btn:hover {
+    background: #2196f3;
+    transform: scale(1.05);
+  }
+
+  .attach-btn input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  button[type="submit"] {
+    background: #2196f3;
+    color: white;
+    padding: 8px 16px;
+    /* Reduced padding for compactness */
+    border: none;
+    border-radius: 20px;
+    /* More rounded corners for chat-style */
+    font-size: 14px;
+    /* Smaller font size */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    /* Fixed height for alignment */
+  }
+
+  button[type="submit"]:hover {
+    background: #1976d2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  }
+
+  .warning-container {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    background: #ff4757;
+    color: white;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.25);
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .loader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #2196f3;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .file-input-label {
+    display: block;
+    margin-top: 1rem;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .post-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1.5rem;
+      margin: 1rem;
+    }
+
+    textarea {
+      min-height: 35px;
+      /* Adjusted for mobile */
+      font-size: 13px;
+      /* Smaller font size for mobile */
+    }
+
+    button[type="submit"] {
+      width: auto;
+      /* Allow button to shrink */
+      padding: 6px 14px;
+      /* Adjusted padding for mobile */
+      font-size: 14px;
+    }
+  }
+
+  /* Additional styles for file info */
+  .file-info {
+    font-size: 14px;
+    color: #666;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: none;
+  }
+
+  .attach-btn:hover .file-info {
+    display: inline;
+  }
