@@ -657,3 +657,6 @@
   .attach-btn:hover .file-info {
     display: inline;
   }
+  .chat-list { 
+    display: none;
+}

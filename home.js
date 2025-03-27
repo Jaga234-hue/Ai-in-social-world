@@ -304,6 +304,12 @@ document.getElementById("fileInput").addEventListener("change", function (e) {
   }
 });
 
+document.getElementById('chats').addEventListener('click', function() {
+  const chatList = document.getElementById('chatList');
+  // Toggle display between none and block
+  chatList.style.display = chatList.style.display === 'none' ? 'block' : 'none';
+});
+
 
 
 

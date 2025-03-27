@@ -88,7 +88,8 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
         </div>
         <div class="body">
             <div class="left" id="leftPanel">
-                <div class="chat-list" id="chatList"><?php include 'chatsection.php'; ?></div>
+                <div class="chat-list" id="chatList" style="display = none;"><?php include 'chatsection.php'; ?></div>
+                <div class="boom" id="boom">
                 <div class="mn" id="chats">
                     <h3>chats</h3>
                 </div>
@@ -100,6 +101,7 @@ if (isset($_COOKIE["username"]) || isset($_COOKIE["email"])) {
                 </div>
                 <div class="mn" id="settings">
                     <h3>Settings</h3>
+                </div>
                 </div>
             </div>
 
